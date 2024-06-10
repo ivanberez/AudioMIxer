@@ -2,25 +2,25 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class SoundMixerChanger : MonoBehaviour
+public class SoundMixer : MonoBehaviour
 {
     private const string SoundEnabled = nameof(SoundEnabled);
     private const string MasterVolume = nameof(MasterVolume);
     private const string ButtonsVolume = nameof(ButtonsVolume);
-    private const string FoneVolume = nameof(FoneVolume);
+    private const string BackgroundVolume = nameof(BackgroundVolume);
     private const float FixedSoundValue = 20f;
 
     [SerializeField] private AudioMixerGroup _mixerAudio;
     [SerializeField] private Toggle _toggleSound;
     [SerializeField] private Slider _sliderMasterVolume;
     [SerializeField] private Slider _sliderButtonsVolume;
-    [SerializeField] private Slider _sliderFoneVolume;
+    [SerializeField] private Slider _sliderBackgroundVolume;
 
     private void Start()
     {        
         _sliderMasterVolume.value = PlayerPrefs.GetFloat(MasterVolume, 1);        
         _sliderButtonsVolume.value = PlayerPrefs.GetFloat(ButtonsVolume, 1);
-        _sliderFoneVolume.value = PlayerPrefs.GetFloat(FoneVolume, 1);        
+        _sliderBackgroundVolume.value = PlayerPrefs.GetFloat(BackgroundVolume, 1);        
         _sliderMasterVolume.interactable = _toggleSound.isOn = PlayerPrefs.GetInt(SoundEnabled, 1) == 1;        
     }
 
@@ -29,7 +29,7 @@ public class SoundMixerChanger : MonoBehaviour
         PlayerPrefs.SetInt(SoundEnabled, _toggleSound.isOn ? 1 : 0);
         PlayerPrefs.SetFloat(MasterVolume, _sliderMasterVolume.value);
         PlayerPrefs.SetFloat(ButtonsVolume, _sliderButtonsVolume.value);
-        PlayerPrefs.SetFloat(FoneVolume, _sliderFoneVolume.value);
+        PlayerPrefs.SetFloat(BackgroundVolume, _sliderBackgroundVolume.value);
     }
 
     public void ToogleSound(bool isEnabled)
@@ -47,8 +47,8 @@ public class SoundMixerChanger : MonoBehaviour
         _mixerAudio.audioMixer.SetFloat(ButtonsVolume, Mathf.Log10(volume) * FixedSoundValue);        
     }
 
-    public void ChangeFoneVolume(float volume)
+    public void ChangeBackgroundVolume(float volume)
     {
-        _mixerAudio.audioMixer.SetFloat(FoneVolume, Mathf.Log10(volume) * FixedSoundValue);        
+        _mixerAudio.audioMixer.SetFloat(BackgroundVolume, Mathf.Log10(volume) * FixedSoundValue);        
     }
 }
